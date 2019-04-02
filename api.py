@@ -23,4 +23,9 @@ def log_event():
 #Create the get event
 @app.route("/get", methods=["GET"])
 def get():
+    params = json.loads( request.args["params"] )
+
+    if len(params) == 0:
+        return event_logger.get( request.args["query"] )
+        
     return event_logger.get( request.args["query"], json.loads( request.args["params"] ) )
