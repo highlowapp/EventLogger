@@ -41,7 +41,7 @@ class EventLogger:
 
         return ""
 
-    def get(self, query, params):
+    def get(self, query, params=[]):
         #Clean the parameters
         for i in range(params):
             params[i] = bleach.clean( params[i] )
