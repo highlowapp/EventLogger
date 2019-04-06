@@ -1,18 +1,17 @@
 from flask import Flask, request
 from EventLogger import EventLogger
 import json
+import Helpers
 
 #Create a Flask app instance
 app = Flask(__name__)
 
 #MySQL configuration
-host = "host"
-username = "highlow"
-password = "highlow"
-database = "highlow"
+mysql_config = Helpers.read_json_from_file("config/mysql_config.json")
+
 
 #Create an event logger instance
-event_logger = EventLogger(host, username, password, database)
+event_logger = EventLogger(mysql_config["host"], mysql_config["username"], mysql_config["password"], mysql_config["database"])
 
 #Create the `log_event` route
 @app.route("/log_event", methods=["POST"])
