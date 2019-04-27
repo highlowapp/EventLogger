@@ -16,15 +16,15 @@ event_logger = EventLogger(mysql_config["host"], mysql_config["username"], mysql
 #Create the `log_event` route
 @app.route("/log_event", methods=["POST"])
 def log_event():
-    return event_logger.log_event( request.form["event_type"], request.form["data"] )
+    return event_logger.log_event( request.form["event_type"], request.form["data"], request.form["admin_password"] )
 
 
 #Create the get event
-@app.route("/get", methods=["GET"])
-def get():
-    params = json.loads( request.args["params"] )
+@app.route("/query", methods=["GET"])
+def query():
+    _type = request.args.get("type")
+    min_time = request.args.get("min_time")
+    max_time = request.args.get("max_time")
+    conditions = json.loads( request.args.get("conditions") )
 
-    if len(params) == 0:
-        return event_logger.get( request.args["query"] )
-        
-    return event_logger.get( request.args["query"], json.loads( request.args["params"] ) )
+    return event_logger.query( _type=_type, min_time=min_time, max_time=max_time, conditions=conditions, admin_password=request.args["admin_password"] )
