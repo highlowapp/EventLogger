@@ -74,7 +74,7 @@ class EventLogger:
         if admin_password != _admin_password:
             return '{"error":"not-authorized"}'
 
-        sql_statement = "SELECT * FROM events WHERE 1=1 {} {} {};".format(condition_str, time_constraint_str, type_str)
+        sql_statement = "SELECT * FROM events WHERE 1=1 {} {} {} ORDER BY _timestamp DESC;".format(condition_str, time_constraint_str, type_str)
 
         #Connect to MySQL database
         conn = pymysql.connect(self.host, self.username, self.password, self.database, cursorclass=pymysql.cursors.DictCursor)
